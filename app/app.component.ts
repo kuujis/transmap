@@ -22,12 +22,9 @@ export class AppComponent {
     };
     this.map = new google.maps.Map(this.gmapElement.nativeElement, mapProp);
 
-    //var fs = require("../history-2018-04-06.kml");
-
-    //console.log(fs);
-
     var ctaLayer = new google.maps.KmlLayer({
-      url: "../history-2018-04-06.kml",
+      url:
+        "https://raw.githubusercontent.com/kuujis/transmap/master/history-2018-04-06.kml",
       map: this.map
     });
   }

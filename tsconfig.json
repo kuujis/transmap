@@ -6,12 +6,10 @@
     "noEmitHelpers": true,
     "pretty": true,
     "sourceMap": true,
-    "lib": ["es5", "dom"],
+    "lib": ["es5", "es2015", "dom"],
     "strictNullChecks": false
   },
-  "exclude": [
-    "node_modules"
-  ],
+  "exclude": ["node_modules"],
   "awesomeTypescriptLoaderOptions": {
     "useWebpackText": true,
     "forkChecker": true,
