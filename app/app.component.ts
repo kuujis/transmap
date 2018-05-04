@@ -1,7 +1,6 @@
 import { Component, ViewChild } from "@angular/core";
 import {} from "@types/googlemaps";
-//import { togeojson } from "@mapbox/togeojson";
-//import { tokml } from "tokml";
+import * as tokml from "tokml";
 
 @Component({
   selector: "app-root",
@@ -14,11 +13,20 @@ import {} from "@types/googlemaps";
     <button (click)="recalculateTransactions()" >Recalculate</button>
   </div>
   <div #map style="width:100%;height:600px">
-    </div>
+  </div>
+  <div>
+    JSON &nbsp;
+    {{ kmlcontent }} &nbsp;
+    RECONSTRUCTED &nbsp;
+    {{ reconstructed }}
+  </div>
   `
 })
 export class AppComponent {
   constructor() {}
+
+  kmlcontent: string;
+  reconstructed: string;
 
   @ViewChild("map") gmapElement: any;
   map: google.maps.Map;
@@ -50,6 +58,7 @@ export class AppComponent {
 
   recalculateTransactions() {
     var togeojson = require("@mapbox/togeojson");
+    //var tokml = require("tokml");
 
     var myRequest = new Request(
       "https://raw.githubusercontent.com/kuujis/transmap/master/history-2018-04-06.kml"
@@ -57,16 +66,21 @@ export class AppComponent {
     var kmls = "";
 
     fetch(myRequest)
-      .then(function(response) {
+      .then(response => {
         return response.text();
       })
-      .then(function(response) {
+      .then(response => {
         var kmls = new DOMParser().parseFromString(response, "application/xml");
-        // console.log(kmls);
 
-        var geoJson = togeojson.kml(kmls);
+        this.reconstructed = kmls.documentElement
+          .getElementsByTagName("Placemark")
+          .toString();
 
-        console.log(geoJson);
+        // var geoJson = togeojson.kml(kmls);
+
+        // this.kmlcontent = JSON.stringify(geoJson);
       });
   }
+
+  filterGeoJson(geoJson: any) {}
 }
